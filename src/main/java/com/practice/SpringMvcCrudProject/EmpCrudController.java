@@ -2,14 +2,16 @@ package com.practice.SpringMvcCrudProject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
-
-public class EmpCrudController extends  MultiActionController  {
+@Controller
+public class EmpCrudController {
 		EmployeeService empService=new EmployeeService();
 		
-		public ModelAndView empsave(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		@RequestMapping("/empSave")
+		public ModelAndView addEmployee(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			String name=request.getParameter("name");
 			String email=request.getParameter("email");
 			String address=request.getParameter("address");
@@ -17,7 +19,8 @@ public class EmpCrudController extends  MultiActionController  {
 			int count=empService.createEmployee(name,email,address);
 			ModelAndView modelAndView=null;
 			if(count!=0) {
-				modelAndView=new ModelAndView("success");
+				modelAndView=new ModelAndView();
+				modelAndView.setViewName("success.jsp");
 			} else {
 				modelAndView=new ModelAndView("failure");
 			}
